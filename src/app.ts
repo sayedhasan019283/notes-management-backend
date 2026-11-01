@@ -19,7 +19,7 @@ app.use(Morgan.errorHandler);
 
 // body parser
 app.use(cors({
-  origin: "https://notes-management-frontend-ute2.onrender.com",
+  origin: "*",
   credentials: true
 }))
 app.use(express.json());
