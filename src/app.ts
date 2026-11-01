@@ -19,7 +19,7 @@ app.use(Morgan.errorHandler);
 
 // body parser
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://notes-management-frontend-ute2.onrender.com",
   credentials: true
 }))
 app.use(express.json());
