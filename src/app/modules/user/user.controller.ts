@@ -6,7 +6,7 @@ import { parsePagination } from '../../../shared/parsePagination';
 import { UserService } from './user.service';
 
 const loginUser = catchAsync(async (req: Request, res: Response) => {
-  console.log("touch hear!")
+  console.log('touch hear!');
   const result = await UserService.loginUser(req.body);
   sendResponse(res, {
     code: httpStatus.OK,
@@ -43,7 +43,10 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getUserById = catchAsync(async (req: Request, res: Response) => {
-  const result = await UserService.getUserById(req.params.id);
+  const result = await UserService.getUserById(
+    req.params.id as string as string,
+  );
+  console.log(typeof (req.params.id as string));
   sendResponse(res, {
     code: httpStatus.OK,
     message: 'User fetched successfully',
@@ -52,7 +55,10 @@ const getUserById = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updateUser = catchAsync(async (req: Request, res: Response) => {
-  const result = await UserService.updateUser(req.params.id, req.body);
+  const result = await UserService.updateUser(
+    req.params.id as string as string,
+    req.body,
+  );
   sendResponse(res, {
     code: httpStatus.OK,
     message: 'User updated successfully',
@@ -61,7 +67,7 @@ const updateUser = catchAsync(async (req: Request, res: Response) => {
 });
 
 const deleteUser = catchAsync(async (req: Request, res: Response) => {
-  await UserService.deleteUser(req.params.id);
+  await UserService.deleteUser(req.params.id as string);
   sendResponse(res, {
     code: httpStatus.OK,
     message: 'User deleted successfully',
@@ -69,22 +75,24 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const getUsersGroupedByInterests = catchAsync(async (req: Request, res: Response) => {
-  const interest =
-    typeof req.query.interest === 'string' && req.query.interest.trim()
-      ? req.query.interest.trim().toLowerCase()
-      : undefined;
+const getUsersGroupedByInterests = catchAsync(
+  async (req: Request, res: Response) => {
+    const interest =
+      typeof req.query.interest === 'string' && req.query.interest.trim()
+        ? req.query.interest.trim().toLowerCase()
+        : undefined;
 
-  const result = await UserService.getUsersGroupedByInterests({
-    ...parsePagination(req.query),
-    interest,
-  });
-  sendResponse(res, {
-    code: httpStatus.OK,
-    message: 'Users grouped by interests fetched successfully',
-    data: result,
-  });
-});
+    const result = await UserService.getUsersGroupedByInterests({
+      ...parsePagination(req.query),
+      interest,
+    });
+    sendResponse(res, {
+      code: httpStatus.OK,
+      message: 'Users grouped by interests fetched successfully',
+      data: result,
+    });
+  },
+);
 
 export const UserController = {
   loginUser,

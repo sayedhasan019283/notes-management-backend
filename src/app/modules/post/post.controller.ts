@@ -24,7 +24,7 @@ const getAllPosts = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getPostById = catchAsync(async (req: Request, res: Response) => {
-  const result = await PostService.getPostById(req.params.id);
+  const result = await PostService.getPostById(req.params.id as string);
   sendResponse(res, {
     code: httpStatus.OK,
     message: 'Post fetched successfully',
@@ -33,7 +33,10 @@ const getPostById = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getPostsByUser = catchAsync(async (req: Request, res: Response) => {
-  const result = await PostService.getPostsByUser(req.params.userId, parsePagination(req.query));
+  const result = await PostService.getPostsByUser(
+    req.params.userId as string,
+    parsePagination(req.query),
+  );
   sendResponse(res, {
     code: httpStatus.OK,
     message: 'User posts fetched successfully',
@@ -42,7 +45,11 @@ const getPostsByUser = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updateMyPost = catchAsync(async (req: Request, res: Response) => {
-  const result = await PostService.updateMyPost(req.user.id, req.params.id, req.body);
+  const result = await PostService.updateMyPost(
+    req.user.id,
+    req.params.id as string,
+    req.body,
+  );
   sendResponse(res, {
     code: httpStatus.OK,
     message: 'Post updated successfully',
@@ -51,7 +58,7 @@ const updateMyPost = catchAsync(async (req: Request, res: Response) => {
 });
 
 const deleteMyPost = catchAsync(async (req: Request, res: Response) => {
-  await PostService.deleteMyPost(req.user.id, req.params.id);
+  await PostService.deleteMyPost(req.user.id, req.params.id as string);
   sendResponse(res, {
     code: httpStatus.OK,
     message: 'Post deleted successfully',

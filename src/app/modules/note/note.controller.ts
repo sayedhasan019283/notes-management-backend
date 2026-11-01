@@ -15,7 +15,10 @@ const createNote = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getMyNotes = catchAsync(async (req: Request, res: Response) => {
-  const result = await NoteService.getMyNotes(req.user.id, parsePagination(req.query));
+  const result = await NoteService.getMyNotes(
+    req.user.id,
+    parsePagination(req.query),
+  );
   sendResponse(res, {
     code: httpStatus.OK,
     message: 'Notes fetched successfully',
@@ -24,7 +27,10 @@ const getMyNotes = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getMyNoteById = catchAsync(async (req: Request, res: Response) => {
-  const result = await NoteService.getMyNoteById(req.user.id, req.params.id);
+  const result = await NoteService.getMyNoteById(
+    req.user.id as string,
+    req.params.id as string,
+  );
   sendResponse(res, {
     code: httpStatus.OK,
     message: 'Note fetched successfully',
@@ -33,7 +39,11 @@ const getMyNoteById = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updateMyNote = catchAsync(async (req: Request, res: Response) => {
-  const result = await NoteService.updateMyNote(req.user.id, req.params.id, req.body);
+  const result = await NoteService.updateMyNote(
+    req.user.id,
+    req.params.id as string,
+    req.body,
+  );
   sendResponse(res, {
     code: httpStatus.OK,
     message: 'Note updated successfully',
@@ -42,7 +52,7 @@ const updateMyNote = catchAsync(async (req: Request, res: Response) => {
 });
 
 const deleteMyNote = catchAsync(async (req: Request, res: Response) => {
-  await NoteService.deleteMyNote(req.user.id, req.params.id);
+  await NoteService.deleteMyNote(req.user.id, req.params.id as string);
   sendResponse(res, {
     code: httpStatus.OK,
     message: 'Note deleted successfully',
@@ -60,7 +70,7 @@ const getAllNotes = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getNoteById = catchAsync(async (req: Request, res: Response) => {
-  const result = await NoteService.getNoteById(req.params.id);
+  const result = await NoteService.getNoteById(req.params.id as string);
   sendResponse(res, {
     code: httpStatus.OK,
     message: 'Note fetched successfully',
